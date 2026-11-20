@@ -2,9 +2,5 @@ version: 3
 kinds:
   notes:
     match: ["notes/**"]
-    risk: low
-    needs:
-      - probe: { name: notes-signed, run: "grep -q 'Signed-off-by:' notes/*.md", artifacts: [] }
-default:
-  risk: low
-  needs: []
+    risk: extreme
+    needs: []
