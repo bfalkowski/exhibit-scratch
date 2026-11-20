@@ -39,12 +39,12 @@ jobs:
             echo
           } >> "$GITHUB_STEP_SUMMARY"
 
-      # enforce: false is shadow mode. The step succeeds whatever the verdict, and the job summary
+      # enforce: true is shadow mode. The step succeeds whatever the verdict, and the job summary
       # shows the verdict. Set it to true to fail the step on needs_person and on error.
       - uses: bfalkowski/exhibit@825eab78dd7666739e6f12b1ba43ed772fb80ad5
         with:
           command: check
-          enforce: false
+          enforce: true
 
   publish:
     name: Exhibit publish
@@ -72,4 +72,4 @@ jobs:
         with:
           command: publish
           comment: true
-          enforce: false
+          enforce: true
