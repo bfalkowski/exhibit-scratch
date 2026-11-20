@@ -1,0 +1,67 @@
+{
+  "exhibit_version": "0.1.0",
+  "policy": {
+    "path": "evidence.yml",
+    "sha256": "a971445d6f0bbf3410945804b62a77489c0849a9a70aa7887446c639dba72636"
+  },
+  "repo": "bfalkowski/exhibit-scratch",
+  "pr": 1,
+  "base": "8b3abfd544491bf664d161c810cc728463344c66",
+  "head": "e84b486d3f74c05ce103b45a4106ac1b5c3641ce",
+  "classification": {
+    "kinds": [
+      "notes"
+    ],
+    "risk": "low",
+    "fix": false,
+    "fix_signal": null,
+    "feature": false,
+    "merge_without_reading": "never",
+    "used_default": false,
+    "policy_changed": false,
+    "signals_from": "pr"
+  },
+  "requirements": [
+    {
+      "type": "probe",
+      "params": {
+        "name": "notes-signed",
+        "run": "grep -q 'Signed-off-by:' notes/*.md",
+        "artifacts": []
+      },
+      "kinds": [
+        "notes"
+      ],
+      "status": "failed",
+      "details": {
+        "exit_code": 1,
+        "timed_out": false,
+        "timeout_seconds": 600,
+        "output": ".exhibit/probes/notes-signed/output.log",
+        "artifacts": [],
+        "missing_artifacts": []
+      },
+      "author": "builder",
+      "duration_ms": 11
+    }
+  ],
+  "verdict": "needs_person",
+  "gaps": [
+    {
+      "type": "probe",
+      "name": "notes-signed",
+      "status": "failed",
+      "how_to_fix": "The probe notes-signed ran \"grep -q 'Signed-off-by:' notes/*.md\" in the head worktree and exited with code 1. Read its output in .exhibit/probes/notes-signed/output.log. Fix the change, and run exhibit check again."
+    }
+  ],
+  "checks_by_author": {
+    "builder": 1,
+    "hidden": 0
+  },
+  "flaky_tests": [],
+  "environment": {
+    "node": "22.x",
+    "os": "linux"
+  },
+  "created_at": "2026-11-20T17:10:00.628Z"
+}
