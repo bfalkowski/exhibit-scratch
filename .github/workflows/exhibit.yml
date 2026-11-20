@@ -1,0 +1,75 @@
+# Exhibit on every pull request, in two jobs split by trust (docs/spec.md section 10).
+#
+# - The check job runs the PR's code, so its token can only read.
+# - The publish job has write access, so it never checks out or runs the PR's code. It runs only
+#   the released Exhibit, on the exhibit that the check job uploaded.
+#
+# Copy this file to .github/workflows/exhibit.yml. Pin bfalkowski/exhibit to a release tag or a
+# commit SHA, the same one in both jobs.
+name: Exhibit
+
+# Never pull_request_target: that runs with a write token and the base repo's secrets, on a run
+# that can be made to execute code from the PR.
+on:
+  pull_request:
+
+# No job gets a permission that it does not name below.
+permissions: {}
+
+jobs:
+  check:
+    name: Exhibit check
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+    steps:
+      # The whole history, so the PR's base and head commits are both in the clone.
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      # GitHub gives a PR from a fork a token that cannot write, so the publish job is skipped.
+      - name: Say why the publish job is skipped
+        if: github.event.pull_request.head.repo.full_name != github.repository
+        run: |
+          {
+            echo '> [!NOTE]'
+            echo '> This PR comes from a fork. GitHub gives it a token that cannot write, so the publish job is skipped: the exhibit is not stored on the data branch, and no comment is posted. The exhibit is in the workflow artifact named exhibit.'
+            echo
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      # enforce: false is shadow mode. The step succeeds whatever the verdict, and the job summary
+      # shows the verdict. Set it to true to fail the step on needs_person and on error.
+      - uses: bfalkowski/exhibit@825eab78dd7666739e6f12b1ba43ed772fb80ad5
+        with:
+          command: check
+          enforce: false
+
+  publish:
+    name: Exhibit publish
+    needs: check
+    # After the check, even when the check step failed in enforce mode, so the comment shows why.
+    # Never for a PR from a fork.
+    if: ${{ !cancelled() && github.event.pull_request.head.repo.full_name == github.repository }}
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      # The base commit, never the PR's head. Publish reads only the policy's storage settings and
+      # pushes to the data branch.
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.base.sha }}
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: exhibit
+          path: .exhibit
+
+      - uses: bfalkowski/exhibit@825eab78dd7666739e6f12b1ba43ed772fb80ad5
+        with:
+          command: publish
+          comment: true
+          enforce: false
