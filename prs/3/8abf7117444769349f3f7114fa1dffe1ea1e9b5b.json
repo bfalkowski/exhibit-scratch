@@ -42,7 +42,7 @@
         "missing_artifacts": []
       },
       "author": "builder",
-      "duration_ms": 12
+      "duration_ms": 13
     }
   ],
   "verdict": "needs_person",
@@ -55,8 +55,8 @@
     }
   ],
   "skip": {
-    "status": "recorded",
-    "by": "bfalkowski",
+    "status": "no-label",
+    "by": null,
     "reason": "scratch run for ticket 201, the note has no sign-off on purpose.",
     "head": "8abf7117444769349f3f7114fa1dffe1ea1e9b5b"
   },
@@ -69,5 +69,5 @@
     "node": "22.x",
     "os": "linux"
   },
-  "created_at": "2026-11-21T06:05:07.898Z"
+  "created_at": "2026-11-21T06:06:06.581Z"
 }
