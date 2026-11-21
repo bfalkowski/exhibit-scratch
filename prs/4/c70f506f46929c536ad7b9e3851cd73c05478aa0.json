@@ -1,0 +1,42 @@
+{
+  "exhibit_version": "0.1.0",
+  "policy": {
+    "path": "evidence.yml",
+    "sha256": "a971445d6f0bbf3410945804b62a77489c0849a9a70aa7887446c639dba72636"
+  },
+  "repo": "bfalkowski/exhibit-scratch",
+  "pr": 4,
+  "base": "8b3abfd544491bf664d161c810cc728463344c66",
+  "head": "c70f506f46929c536ad7b9e3851cd73c05478aa0",
+  "classification": {
+    "kinds": [],
+    "risk": "low",
+    "fix": false,
+    "fix_signal": null,
+    "feature": false,
+    "merge_without_reading": "never",
+    "used_default": true,
+    "policy_changed": true,
+    "signals_from": "pr"
+  },
+  "requirements": [],
+  "verdict": "needs_person",
+  "gaps": [
+    {
+      "type": "policy-change",
+      "status": "missing",
+      "how_to_fix": "This change edits evidence.yml, the policy that Exhibit checks changes against. A change to the policy always needs a person, so that a builder cannot change the rules to pass its own PR. Ask a maintainer to review the policy change."
+    }
+  ],
+  "skip": null,
+  "checks_by_author": {
+    "builder": 0,
+    "hidden": 0
+  },
+  "flaky_tests": [],
+  "environment": {
+    "node": "22.x",
+    "os": "linux"
+  },
+  "created_at": "2026-11-21T07:47:04.543Z"
+}
