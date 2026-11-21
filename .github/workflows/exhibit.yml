@@ -24,7 +24,7 @@ jobs:
       contents: read
     steps:
       # The whole history, so the PR's base and head commits are both in the clone.
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0
           persist-credentials: false
@@ -41,7 +41,7 @@ jobs:
 
       # enforce: false is shadow mode. The step succeeds whatever the verdict, and the job summary
       # shows the verdict. Set it to true to fail the step on needs_person and on error.
-      - uses: bfalkowski/exhibit@825eab78dd7666739e6f12b1ba43ed772fb80ad5
+      - uses: bfalkowski/exhibit@c8d7af4c1969cfe2f35a5b71c5c19fc6f2a1f7d5
         with:
           command: check
           enforce: false
@@ -59,16 +59,16 @@ jobs:
     steps:
       # The base commit, never the PR's head. Publish reads only the policy's storage settings and
       # pushes to the data branch.
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           ref: ${{ github.event.pull_request.base.sha }}
 
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v7
         with:
           name: exhibit
           path: .exhibit
 
-      - uses: bfalkowski/exhibit@825eab78dd7666739e6f12b1ba43ed772fb80ad5
+      - uses: bfalkowski/exhibit@c8d7af4c1969cfe2f35a5b71c5c19fc6f2a1f7d5
         with:
           command: publish
           comment: true
